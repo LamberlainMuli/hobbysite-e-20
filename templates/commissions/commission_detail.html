@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}Commission Details{% endblock %}
+{% block title %}{{ commission.title }}{% endblock %}
+{% block content %}
+  <h3>Title: {{ commission.title }}</h3>
+  <p>Description: {{ commission.description }}</p>
+  <p>People Required: {{ commission.people_required }}</p>
+  <p>Created On: {{ commission.created_on|date:"F d, Y H:i" }}</p>
+  <p>Last Updated: {{ commission.updated_on|date:"F d, Y H:i" }}</p>
+  <h3>Comments:</h3>
+  <ul>
+    {% for comment in commission.comments.all %}
+      <li>
+        <p>{{ comment.entry }}</p>
+        <p>Posted on: {{ comment.created_on|date:"F d, Y H:i" }}</p>
+        <p>Last Updated: {{ comment.updated_on|date:"F d, Y H:i" }}</p>
+      </li>
+    {% empty %}
+      <p>No comments yet.</p>
+    {% endfor %}
+  </ul>
+  <div style="display:flex;justify-content:center">
+  <a href="/commissions/list">
+    <button>Go back to Commission List</button>
+  </a>
+</div>
+{% endblock %}
