@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  {{ post.title }}
+{% endblock title %}
+<h2>{{ post.title }}</h2>
+{% block content %}
+  <p>in {{ post.category }}</p>
+  <p>Created on {{ post.created_on }}</p>
+  <p>Last updated {{ post.updated_on }}</p>
+  <br>
+  <p>{{ post.entry }}</p>
+  <a href="{% url 'forum:forum_list' %}">
+    <button>Return</button>
+  </a>
+{% endblock content %}
