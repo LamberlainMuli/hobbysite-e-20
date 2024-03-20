@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  {{ article.title }}
+{% endblock title %}
+<h2>{{ article.title }}</h2>
+{% block content %}
+  <h3><p>In {{ article.category }}</p></h3>
+  <p><b>Created on </b>{{ article.created_on }}</p>
+  <p><b>Last updated </b>{{ article.updated_on }}</p>
+  <br>
+  <p>{{ article.entry }}</p>
+  <a href="{% url 'blog:article_list' %}">
+    <br>
+    <button>Return</button>
+  </a>
+{% endblock content %}
