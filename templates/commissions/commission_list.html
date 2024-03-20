@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block header %}Commissions List{% endblock %}
+{% block title %}Commissions List{% endblock %}
+{% block content %}
+  <div style="margin: 20px;">
+    <ul>
+      {% for commission in object_list %}
+        <li>
+          <h4><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></h4>
+          <p>Description: {{ commission.description|truncatewords:20 }}</p>
+          <p>People Required: {{ commission.people_required }}</p>
+          <p>Created On: {{ commission.created_on|date:"F d, Y" }}</p>
+          <p>Last Updated: {{ commission.updated_on|date:"F d, Y" }}</p>
+        </li>
+      {% empty %}
+        <li>No commissions available.</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}
