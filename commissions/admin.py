@@ -12,14 +12,15 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ['commission']
     list_display = ['commission', 'entry', 'created_on', 'updated_on']
 
-    # fieldsets = [
-    #     ('Comment', {'fields': ['entry']}),
-    #     ('Commission', {'fields': ['commission']}),
-    # ]
 
 class CommissionAdmin(admin.ModelAdmin):
     model = Commission
+    search_fields = ['title', 'description', 'people_required', 'created_on', 'updated_on']
+    list_filter = ['created_on', 'updated_on']
+    list_display = ['title', 'description', 'people_required', 'created_on', 'updated_on']
     inlines = [CommentInline,]
+
+    
 
 
 admin.site.register(Commission, CommissionAdmin)

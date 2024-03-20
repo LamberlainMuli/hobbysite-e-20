@@ -6,10 +6,9 @@ from django.utils import timezone
 class Commission(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    # should be a positive whole number
     people_required  = models.PositiveIntegerField() 
     created_on = models.DateTimeField(default=timezone.now, blank=True)
-    updated_on = models.DateTimeField(default=timezone.now, blank=True)
+    updated_on = models.DateTimeField(auto_now=True)
     
     class Meta:
         ordering = ['created_on']
@@ -30,7 +29,7 @@ class Comment(models.Model):
     )
     
     created_on = models.DateTimeField(default=timezone.now, blank=True)
-    updated_on = models.DateTimeField(default=timezone.now, blank=True)    
+    updated_on = models.DateTimeField(auto_now=True) 
     
     class Meta:
         ordering = ['-created_on']
