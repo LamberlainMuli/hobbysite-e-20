@@ -1,17 +1,30 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}
-  {{ article.title }}
-{% endblock title %}
-<h2>{{ article.title }}</h2>
+{% block header %}
+  <h3><p>In {{ article.category }}</p></h3>  
+  <h2><p>{{ article.title }}</p></h2>  
+{% endblock header %}
+
 {% block content %}
-  <h3><p>In {{ article.category }}</p></h3>
-  <p><b>Created on </b>{{ article.created_on }}</p>
-  <p><b>Last updated </b>{{ article.updated_on }}</p>
-  <br>
-  <p>{{ article.entry }}</p>
+  
+  <p><b>Created on </b> {{ article.created_on }}</p>
+  <p><b>Last updated </b> {{ article.updated_on }}</p>
+  <img src="{{article.image.url}}" alt="{{ article.image_description }}">
+  
+  <style>
+  div {
+    padding: 15px;
+    text-align: justify;
+  }
+  </style>
+  
+  <p><div>{{ article.entry }}</div></p>
   <a href="{% url 'blog:article_list' %}">
-    <br>
-    <button>Return</button>
+    <br><button>Return</button></br>
+  </a>
+  
+  <a href="{% url 'blog:article_update' pk=article.pk %}">
+    <br><button>Update</button></br>
   </a>
 {% endblock content %}
+

@@ -1,7 +1,12 @@
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic import TemplateView
+from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView, UpdateView
+from .forms import ArticleForm, ArticleUpdateForm
 from .models import Article, ArticleCategory
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class ArticleListView(ListView):
@@ -31,3 +36,30 @@ class BlogIndex(ListView):
         context['total_read_time'] = context['total_words']/200
         context['average_read_time'] = sum((article.entry.count(' ')+1)/200 for article in articles) / context['total_articles'] if context['total_articles'] > 0 else 0
         return context
+
+
+
+class ArticleCreateView(LoginRequiredMixin, CreateView):
+    model = Article
+    template_name = "blog/article_create.html"
+    form_class = ArticleForm
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user.profile
+        return super().form_valid(form)
+
+
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+    model = Article
+    template_name = "blog/article_update.html"
+    form_class = ArticleUpdateForm
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "blog:article_update", kwargs={"pk": self.object.article.pk}
+        )
+
+    def form_valid(self, form):
+        form.instance.article = Article.objects.get(pk=self.kwargs["pk"])
+        return super().form_valid(form)
+    

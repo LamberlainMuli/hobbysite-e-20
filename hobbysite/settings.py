@@ -14,7 +14,10 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 32e970b (Added new blog models, views, urls and templates)
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
