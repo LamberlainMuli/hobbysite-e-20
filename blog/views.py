@@ -14,9 +14,17 @@ class ArticleListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_articles = Article.objects.filter(author=self.request.user.profile)
-        context['user_articles'] = user_articles
-        context['all_articles'] = Article.objects.exclude(author=self.request.user.profile)
+          
+        categories = ArticleCategory.objects.all()
+        articles_per_category = {}
+        for category in categories:
+          category_articles = Article.objects.filter(category=category).exclude(author=self.request.user.profile)
+          articles_per_category[category] = category_articles
+        context['articles_per_category'] = articles_per_category
+        context['my_articles'] = Article.objects.filter(author=self.request.user.profile)
+        context['all_article'] = Article.objects.exclude(author=self.request.user.profile)
+        context['category'] = categories
+    
         return context
     
 
@@ -43,6 +51,12 @@ class BlogIndex(ListView):
         context['average_read_time'] = sum((article.entry.count(' ')+1)/200 for article in articles) / context['total_articles'] if context['total_articles'] > 0 else 0
         return context
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        article = self.get_object()
+        author_articles = Article.objects.filter(author=article.author).exclude(pk=article.pk)
+        context['author_articles'] = author_articles
+        return context
 
 
 class ArticleCreateView(LoginRequiredMixin, CreateView):

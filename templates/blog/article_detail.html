@@ -19,12 +19,21 @@
   </style>
   
   <p><div>{{ article.entry }}</div></p>
-  <a href="{% url 'blog:article_list' %}">
-    <br><button>Return</button></br>
-  </a>
+
+  <h3>More Articles by {{ article.author }}</h3>
+  <ul>
+    {% for author_article in author_articles %}
+      <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
+    {% endfor %}
+  </ul>
   
   <a href="{% url 'blog:article_update' pk=article.pk %}">
-    <br><button>Update</button></br>
+    <br><button>Update this Article</button></br>
   </a>
+
+  <a href="{% url 'blog:article_list' %}">
+    <br><button>Back to Blog Menu</button></br>
+  </a>
+  
 {% endblock content %}
 
