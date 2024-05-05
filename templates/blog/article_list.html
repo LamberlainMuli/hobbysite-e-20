@@ -1,23 +1,25 @@
 {% extends "base.html" %}
-{% load static %}
 {% block title %}
   Blog
 {% endblock title %}
 {% block content %}
   <h1><p>
+    <h2>My Articles:</h2>
     <ul>
-      {% for category in object_list %}
+      {% for article in user_articles %}
         <li>
-          {{ category }}
-          <ul>
-            {% for article in category.article.all %}
-              <li>
-                <a href="{{ article.get_absolute_url }}">{{ article.title }} </a>
-              </li>
-            {% endfor %}
-          </ul>
+          <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
         </li>
       {% endfor %}
     </ul>
-  <h2></p>
+    <h2>All Articles:</h2>
+    <ul>
+      {% for article in all_articles %}
+        <li>
+          <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'blog:article_create' %}"><button>Add Article</button></a>
+  </h2></p>
 {% endblock content %}

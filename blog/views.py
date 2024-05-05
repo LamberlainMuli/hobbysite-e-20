@@ -5,14 +5,20 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, UpdateView
 from .forms import ArticleForm, ArticleUpdateForm
 from .models import Article, ArticleCategory
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class ArticleListView(ListView):
     model = ArticleCategory
     template_name = 'blog/article_list.html'
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_articles = Article.objects.filter(author=self.request.user.profile)
+        context['user_articles'] = user_articles
+        context['all_articles'] = Article.objects.exclude(author=self.request.user.profile)
+        return context
+    
 
 class ArticleDetailView(DetailView):
     model = Article
