@@ -20,6 +20,29 @@
   
   <p><div>{{ article.entry }}</div></p>
 
+  <hr>
+
+  {% if request.user.is_authenticated %}
+  <h2> Add Comment </h2>
+    <form method="POST">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <button type="submit">Submit</button>
+  </form>
+  {% endif %}
+  
+  <h2>Existing Comments</h2>
+  <ul>
+    {% for comment in comment %}
+    <li>
+      <b>{{ comment.author }}"</b> - {{ comment.created_on }}
+      <p>{{ comment.entry }} </p>
+    </li>
+  {% endfor %}
+</ul>
+
+<hr>
+
   <h3>More Articles by {{ article.author }}</h3>
   <ul>
     {% for author_article in author_articles %}
@@ -27,9 +50,13 @@
     {% endfor %}
   </ul>
   
-  <a href="{% url 'blog:article_update' pk=article.pk %}">
-    <br><button>Update this Article</button></br>
-  </a>
+  {% if is_owner %}
+    <a href="{% url 'blog:article_update' pk=article.pk %}">
+      <br><button>Edit this Article</button></br>
+    </a>
+  {% endif %}
+
+<hr>
 
   <a href="{% url 'blog:article_list' %}">
     <br><button>Back to Blog Menu</button></br>

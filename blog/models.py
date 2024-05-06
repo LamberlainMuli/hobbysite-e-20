@@ -64,7 +64,7 @@ class Article(models.Model):
 class Comment(models.Model):
     author = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='comment')
     article = models.ForeignKey(Article, null=True, on_delete=models.CASCADE, related_name='comment')
-    entry = models.TextField()
+    entry = models.TextField(max_length=255)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     
@@ -72,5 +72,7 @@ class Comment(models.Model):
         ordering = ['created_on'] # order by date created ascending  order
 
     def __str__(self):
-        return self.author
+        return f'{self.author} - {self.created_on}'
   
+    def get_absolute_url(self):
+        return reverse('blog:article_detail', args=str(self.pk))
