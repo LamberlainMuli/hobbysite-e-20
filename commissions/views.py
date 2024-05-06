@@ -17,7 +17,7 @@ class CommissionListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_commissions'] = Commission.objects.filter(creator=self.request.user)
-        context['applied_commissions'] = Commission.objects.filter(jobs__applications__applicant=self.request.user.profile)
+        context['applied_commissions'] = Commission.objects.filter(jobs__applications__applicant=self.request.user)
         return context
 
 class CommissionDetailView(LoginRequiredMixin, DetailView):
@@ -38,7 +38,7 @@ class CommissionDetailView(LoginRequiredMixin, DetailView):
         job_application_form = JobApplicationForm(request.POST)
         if job_application_form.is_valid():
             job_application = job_application_form.save(commit=False)
-            job_application.applicant = request.user.profile
+            job_application.applicant = request.user
             job_application.job = self.get_object()
             job_application.save()
             return self.get(request, *args, **kwargs)

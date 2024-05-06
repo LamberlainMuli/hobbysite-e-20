@@ -1,5 +1,5 @@
 from django import forms
-from .models import Commission, Job, JobApplication, Profile
+from .models import Commission, Job, JobApplication
 
 class CommissionForm(forms.ModelForm):
     class Meta:
@@ -77,16 +77,3 @@ class JobApplicationForm(forms.ModelForm):
             'status': 'Application Status',
         }
 
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['user', 'name', 'bio']
-        widgets = {
-            'user': forms.HiddenInput(),
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'bio': forms.Textarea(attrs={'class': 'form-control'}),
-        }
-        labels = {
-            'name': 'Full Name',
-            'bio': 'Biography',
-        }

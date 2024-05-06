@@ -70,15 +70,6 @@ class Job(models.Model):
         return f'{self.role} in {self.commission}'
 
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    bio = models.TextField()
-
-    def __str__(self):
-        return self.name
-
-
 class JobApplication(models.Model):
     STATUS_CHOICES = [
         ('Pending', 'Pending'),
@@ -87,7 +78,7 @@ class JobApplication(models.Model):
     ]
 
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='applications')
-    applicant = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    applicant = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
     applied_on = models.DateTimeField(auto_now_add=True)
     

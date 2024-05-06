@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Commission, Job, JobApplication, Profile
+from .models import Commission, Job, JobApplication
 
 class JobInline(admin.TabularInline):
     model = Job
@@ -29,12 +29,9 @@ class JobApplicationAdmin(admin.ModelAdmin):
     list_filter = ['status', 'applied_on']
     list_display = ['job', 'applicant', 'status', 'applied_on']
 
-class ProfileAdmin(admin.ModelAdmin):
-    model = Profile
-    search_fields = ['user__username', 'name']
-    list_display = ['user', 'name']
+
 
 admin.site.register(Commission, CommissionAdmin)
 admin.site.register(Job, JobAdmin)
 admin.site.register(JobApplication, JobApplicationAdmin)
-admin.site.register(Profile, ProfileAdmin)
+
