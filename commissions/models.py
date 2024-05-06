@@ -1,13 +1,21 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-
+from django.contrib.auth.models import User
 
 class Commission(models.Model):
+    STATUS_CHOICES = [
+        ('Open', 'Open'),
+        ('Full', 'Full'),
+        ('Completed', 'Completed'),
+        ('Discontinued', 'Discontinued'),
+    ]
+    
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     title = models.CharField(max_length=255)
     description = models.TextField()
-    people_required  = models.PositiveIntegerField() 
-    created_on = models.DateTimeField(default=timezone.now, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Open')
+    created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     
     class Meta:
@@ -17,7 +25,7 @@ class Commission(models.Model):
         return f'{self.title}'
 
     def get_absolute_url(self):
-        return reverse('ledger:commission-detail', args=[str(self.pk)])
+        return reverse('commissions:commission-detail', args=[str(self.pk)])
 
     def get_word_count(self):
         return len(self.description.split())
@@ -31,16 +39,17 @@ class Commission(models.Model):
     def get_date_updated(self):
         return self.updated_on.strftime('%b %d %Y')
 
-class Comment(models.Model):
-    entry = models.TextField()
-    commission = models.ForeignKey(
-        Commission,
-        on_delete=models.CASCADE, 
-        related_name='comments'
-    )
+class Job(models.Model):
+    STATUS_CHOICES = [
+        ('Open', 'Open'),
+        ('Full', 'Full'),
+    ]
+
     
-    created_on = models.DateTimeField(default=timezone.now, blank=True)
-    updated_on = models.DateTimeField(auto_now=True) 
+    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, related_name='jobs')
+    role = models.CharField(max_length=255)
+    manpower_required = models.PositiveIntegerField()
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Open')
     
     def get_word_count(self):
         return len(self.entry.split())
@@ -55,4 +64,35 @@ class Comment(models.Model):
         return self.updated_on.strftime('%b %d %Y')
     
     class Meta:
-        ordering = ['-created_on']
+        ordering = ['status', '-manpower_required', 'role']
+    
+    def __str__(self):
+        return f'{self.role} in {self.commission}'
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    bio = models.TextField()
+
+    def __str__(self):
+        return self.name
+
+
+class JobApplication(models.Model):
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Accepted', 'Accepted'),
+        ('Rejected', 'Rejected'),
+    ]
+
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='applications')
+    applicant = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Pending')
+    applied_on = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['status', '-applied_on']
+    
+    def __str__(self):
+        return f'{self.applicant} - {self.status}'
