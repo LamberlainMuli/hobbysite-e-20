@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  Forum
+{% endblock title %}
+
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'forum/css/main.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Forum Dashboard</h1>
+    <!-- Featured Post -->
+    {% if latest_post %}
+    <div class="featured-post  mt-5">
+        <h4>Featured Thread</h4>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">{{ latest_post.title }}</h3>
+                <small>{{latest_post.get_word_count}} words | {{latest_post.get_read_time}} mins read </small> <br>
+                <small> Created on {{latest_post.get_date_created}}. Last Updated on {{latest_post.get_date_updated}} </small>
+                <p class="card-text">{{ latest_post.entry|slice:":200" }}...</p>
+                <a href="{{ latest_post.get_absolute_url }}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Forum Categories -->
+    <div class="categories mt-5">
+    <h4>Forum Categories</h4>
+    <ul class="list-group">
+        {% for category in categories %}
+        <li class="list-group-item">
+            {{ category.name }}
+            <p> {{category.description}} </p>
+        </li>
+        {% endfor %}
+    </ul>
+    
+
+    <!-- Forum Statistics -->
+    <div class="statistics  mt-5">
+        <h4>Forum Statistics</h4>
+        <p>Total Posts: {{ total_posts }}</p>
+        <p>Total Words: {{ total_words }}</p>
+        <p>Average Read Time: {{ average_read_time }} minutes</p>
+    </div>
+
+    <!-- Recent Posts List -->
+    <div class="recent-posts mt-5">
+        <h4>Recent Posts</h4>
+        <ul class="list-group">
+            {% for post in recent_posts %}
+            <li class="list-group-item">
+                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                <br>
+                <small>{{ post.get_word_count }} words | {{ post.get_read_time }} mins read</small> <br>
+                <small> Created on {{post.get_date_created}}. Last Updated on {{post.get_date_updated}} </small>
+                <p> {{ post.entry|slice:":200" }}...</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- view more  -->
+    <div class="row">
+        <div class="col-md-12 mb-5">
+            <a href="{% url 'forum:forum_list' %}" class="btn btn-primary">View More Articles</a>
+        </div>
+
+</div>
+{% endblock content %}

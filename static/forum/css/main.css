@@ -1,0 +1,36 @@
+.statistics {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.featured-post .card-body {
+    transition: transform 0.5s ease;
+}
+
+.featured-post:hover .card-body {
+    transform: scale(1.05);
+}
+
+.list-group-item {
+    border: 1px solid #ddd;
+    margin-top: 5px;
+    background-color: #ffffff;
+}
+
+.list-group-item:hover {
+    background-color: #f1f1f1;
+}
+
+.list-group-item a {
+    color: #333;
+    font-weight: bold;
+}
+
+.list-group-item small {
+    display: block;
+    color: #666;
+    margin-top: 5px;
+}

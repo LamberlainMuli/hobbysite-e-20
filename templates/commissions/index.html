@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  Commission
+{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'commissions/css/main.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Commission Dashboard</h1>
+    <!-- Featured Post -->
+    {% if latest_commission %}
+    <div class="featured-commission  mt-5">
+        <h4>Featured Commission</h4>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title">{{ latest_commission.title }}</h3>
+                <small>{{latest_commission.get_word_count}} words | {{latest_commission.get_read_time}} mins read </small> <br>
+                <small> Created on {{latest_commission.get_date_created}}. Last Updated on {{latest_commission.get_date_updated}} </small>
+                <p class="card-text">{{ latest_commission.description|slice:":200" }}...</p>
+                <a href="{{ latest_commission.get_absolute_url }}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Commission Categories -->
+    <!-- <div class="categories mt-5">
+    <h4>Commission Categories</h4>
+    <ul class="list-group">
+        {% for category in categories %}
+        <li class="list-group-item">
+            {{ category.name }}
+            <p> {{category.description}} </p>
+        </li>
+        {% endfor %}
+    </ul>
+     -->
+
+    <!-- Commission Statistics -->
+    <div class="statistics  mt-5">
+        <h4>Commission Statistics</h4>
+        <p>Total Posts: {{ total_commissions }}</p>
+        <p>Total Words: {{ total_words }}</p>
+        <p>Average Read Time: {{ average_read_time }} minutes</p>
+    </div>
+
+    <!-- Recent Posts List -->
+    <div class="recent-commissions mt-5">
+        <h4>Recent Posts</h4>
+        <ul class="list-group">
+            {% for commission in recent_commissions %}
+            <li class="list-group-item">
+                <a href="{{ commission.get_absolute_url }}">{{ commission.title }}</a>
+                <br>
+                <small>{{ commission.get_word_count }} words | {{ commission.get_read_time }} mins read</small> <br>
+                <small> Created on {{commission.get_date_created}}. Last Updated on {{commission.get_date_updated}} </small>
+                <p> {{ commission.description|slice:":200" }}...</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- view more  -->
+    <div class="row">
+        <div class="col-md-12 mb-5">
+            <a href="{% url 'commissions:commission_list' %}" class="btn btn-primary">View More Commissions</a>
+        </div>
+
+</div>
+{% endblock content %}

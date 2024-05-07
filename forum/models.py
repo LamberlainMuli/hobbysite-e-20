@@ -33,5 +33,17 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('forum:forum_detail', args=str(self.pk))
     
+    def get_word_count(self):
+        return len(self.entry.split())
+    
+    def get_read_time(self):
+        return (self.get_word_count() / 200)
+    
+    def get_date_created(self):
+        return self.created_on.strftime('%b %d %Y')
+    
+    def get_date_updated(self):
+        return self.updated_on.strftime('%b %d %Y')
+    
     class Meta:
         ordering = ['-created_on']

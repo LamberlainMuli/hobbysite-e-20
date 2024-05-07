@@ -19,6 +19,17 @@ class Commission(models.Model):
     def get_absolute_url(self):
         return reverse('ledger:commission-detail', args=[str(self.pk)])
 
+    def get_word_count(self):
+        return len(self.description.split())
+    
+    def get_read_time(self):
+        return self.get_word_count() / 200
+    
+    def get_date_created(self):
+        return self.created_on.strftime('%b %d %Y')
+    
+    def get_date_updated(self):
+        return self.updated_on.strftime('%b %d %Y')
 
 class Comment(models.Model):
     entry = models.TextField()
@@ -30,6 +41,18 @@ class Comment(models.Model):
     
     created_on = models.DateTimeField(default=timezone.now, blank=True)
     updated_on = models.DateTimeField(auto_now=True) 
+    
+    def get_word_count(self):
+        return len(self.entry.split())
+    
+    def get_read_time(self):
+        return self.get_word_count() / 200
+    
+    def get_date_created(self):
+        return self.created_on.strftime('%b %d %Y')
+    
+    def get_date_updated(self):
+        return self.updated_on.strftime('%b %d %Y')
     
     class Meta:
         ordering = ['-created_on']

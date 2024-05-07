@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block name %}
+  Merch Store
+{% endblock name %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'merchstore/css/main.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Merch Store Dashboard</h1>
+    <!-- Featured Post -->
+    {% if latest_product %}
+    <div class="featured-product  mt-5">
+        <h4>Featured Product</h4>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-name">{{ latest_product.name }} - ₱ {{latest_product.price}}</h3>
+                <small>{{latest_product.get_word_count}} words | {{latest_product.get_read_time}} mins read </small> <br>
+                <p class="card-text">{{ latest_product.description|slice:":200" }}...</p>
+                <a href="{{ latest_product.get_absolute_url }}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Merch Store Product Types -->
+    <div class="categories mt-5">
+    <h4>Merch Store Product Types</h4>
+    <ul class="list-group">
+        {% for type in types %}
+        <li class="list-group-item">
+            {{ type.name }}
+            <p> {{type.description}} </p>
+        </li>
+        {% endfor %}
+    </ul>
+    
+
+    <!-- Merch Store Statistics -->
+    <div class="statistics  mt-5">
+        <h4>Merch Store Statistics</h4>
+        <p>Total Products: {{ total_products }}</p>
+        <p>Total Prices: {{ total_prices }} </p>
+        <p>Average Price: {{ average_price }} </p>
+        <p>Total Words: {{ total_words }}</p>
+        <p>Average Read Time: {{ average_read_time }} minutes</p>
+    </div>
+
+    <!-- Recent Products List -->
+    <div class="recent-products mt-5">
+        <h4>Recent Products</h4>
+        <ul class="list-group">
+            {% for product in recent_products %}
+            <li class="list-group-item">
+                <a href="{{ product.get_absolute_url }}">{{ product.name }} - ₱ {{latest_product.price}}</a>
+                <br>
+                <small>{{ product.get_word_count }} words | {{ product.get_read_time }} mins read</small> <br>
+                <p> {{ product.description|slice:":200" }}...</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- view more  -->
+    <div class="row">
+        <div class="col-md-12 mb-5">
+            <a href="{% url 'merchstore:merch_list' %}" class="btn btn-primary">View More Products</a>
+        </div>
+
+</div>
+{% endblock content %}

@@ -26,8 +26,8 @@ class BlogIndex(ListView):
         context['categories'] = categories
         context['recent_articles'] = articles[:5]
         context['latest_article'] = articles.first()
-        context['total_posts'] = articles.count()
+        context['total_articles'] = articles.count()
         context['total_words'] = sum(article.entry.count(' ')+1 for article in articles)
         context['total_read_time'] = context['total_words']/200
-        context['average_read_time'] = sum((article.entry.count(' ')+1)/200 for article in articles) / context['total_posts'] if context['total_posts'] > 0 else 0
+        context['average_read_time'] = sum((article.entry.count(' ')+1)/200 for article in articles) / context['total_articles'] if context['total_articles'] > 0 else 0
         return context

@@ -6,11 +6,11 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.featured-article .card-body {
+.featured-product .card-body {
     transition: transform 0.5s ease;
 }
 
-.featured-article:hover .card-body {
+.featured-product:hover .card-body {
     transform: scale(1.05);
 }
 
