@@ -11,7 +11,7 @@ class ArticleForm(forms.ModelForm):
 class ArticleUpdateForm(forms.ModelForm):
     class Meta:
         model = Article
-        exclude = ["article"]
+        exclude = ["article", "author"]
 
 class CommentForm(forms.ModelForm):
     class Meta:
