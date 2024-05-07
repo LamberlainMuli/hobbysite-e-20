@@ -3,12 +3,38 @@
 
 {% block header %}Login{% endblock %}
 {% block title %}Login{% endblock %}
-{% block styles %}{% endblock %}
+{% block css %}
+  <link rel="stylesheet" href="{% static 'registration/css/login.css' %}">
+  <style>
+    body:before {
+      background-color:#0A3029;
+    }
+    body {
+        background-color: #0A3029;
+        height: 100vh;
+        background: url("{% static 'registration/img/login-bg.png' %}") no-repeat center center fixed !important;
+        background-size: cover !important;
+    }
+  </style>
+  
+  {% endblock %}
+
 {% block content %}
-  <form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
-  </form>
-  <a href="{% url 'password_reset' %}">Forgot your password?</a>
+<div class="login-container">
+    <div class="welcome-section">
+        <img src="{% static 'registration/img/login.png' %}" alt="Welcome to Hobby Site">
+    </div>
+    <div class="login-section">
+        <h2  style="font-weight: 900;font-size:50px">LOGIN</h2>
+        <form method="POST" class="login-form">
+            {% csrf_token %}
+            <h3>Username</h3>
+            {{ form.username }}
+            <h3>Password</h3>
+            {{ form.password }}
+            <button type="submit">Log In</button>
+            <button href="{% url 'password_reset' %}">Forgot Password</a>
+        </form>
+    </div>
+</div>
 {% endblock %}

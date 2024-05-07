@@ -27,7 +27,7 @@ urlpatterns = [
     path('blog/', include('blog.urls', namespace = 'blog')),
     path('commissions/', include("commissions.urls", namespace='commissions')),
     path('merchstore/', include('merchstore.urls', namespace='merchstore')),
-    path("account/", include("django.contrib.auth.urls")),
+    path("accounts/", include("django.contrib.auth.urls")),
     path("profile", include("user_management.urls", namespace="user_management")),
     path("", HomePageView.as_view(), name="homepage") #homepage
 ]
