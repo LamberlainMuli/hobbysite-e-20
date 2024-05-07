@@ -18,11 +18,11 @@ class ArticleListView(ListView):
         categories = ArticleCategory.objects.all()
         articles_per_category = {}
         for category in categories:
-          category_articles = Article.objects.filter(category=category).exclude(author=self.request.user.profile)
+          category_articles = Article.objects.filter(category=category).exclude(author=self.request.user)
           articles_per_category[category] = category_articles
         context['articles_per_category'] = articles_per_category
-        context['my_articles'] = Article.objects.filter(author=self.request.user.profile)
-        context['all_article'] = Article.objects.exclude(author=self.request.user.profile)
+        context['my_articles'] = Article.objects.filter(author=self.request.user)
+        context['all_article'] = Article.objects.exclude(author=self.request.user)
         context['category'] = categories
     
         return context
@@ -59,7 +59,7 @@ class BlogIndex(ListView):
         context['comment_form'] = CommentForm()
         context['comment'] = Comment.objects.filter(article=article).order_by('-created_on')
         
-        if self.request.user == article.author.user:
+        if self.request.user == article.author:
             context['is_owner'] = True
         else:
             context['is_owner'] = False
@@ -73,7 +73,7 @@ class BlogIndex(ListView):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.article = article
-            comment.author = request.user.profile
+            comment.author = request.user
             comment.save()
             return self.get(request, *args, **kwargs)
         else:
@@ -87,7 +87,7 @@ class ArticleCreateView(LoginRequiredMixin, CreateView):
     form_class = ArticleForm
 
     def form_valid(self, form):
-        form.instance.author = self.request.user.profile
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
 
