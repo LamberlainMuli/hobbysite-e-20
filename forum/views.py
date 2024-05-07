@@ -12,3 +12,10 @@ class ForumListView(ListView):
 class ForumDetailView(DetailView):
     model = Post
     template_name = 'forum/forum_detail.html'
+
+
+class ForumIndex(ListView):
+    model = Post
+    template_name = 'forum/index.html'
+    context_object_name = 'post_list'
+    paginate_by = 2

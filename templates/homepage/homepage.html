@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'homepage/css/main.css' %}">
+{% endblock %}
+
+{% block title %}Welcome to Hobby Site{% endblock %}
+{% block content %}
+
+
+
+<!-- Hero Section -->
+<section class="hero-section mt-8">
+    <img src="{% static 'homepage/img/hobby-site-title.png' %}" style="display:block;width:70%;margin:auto"  alt="Hero Image">
+    <img src="{% static 'homepage/img/hero-image.png' %}" class="hero-image" alt="Hero Image">
+    <div class="text-center card">
+        <h2>Meet our community of artists, crafters, analysts, and enthusiasts.</h2>
+        <a class="btn btn-outline-light btn-lg m-4 readmore" href="/#forum" style="z-index:99">READ MORE</a>  
+    </div>
+    
+</section>
+
+
+<!-- Forum Section -->
+<div id="forum" class="forum app mt-5">
+    <img src="{% static 'homepage/img/forum-image.png' %}"  class="img-fluid float-left" alt="Forum">
+    <div class="card mt-8 row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-8" style="float:right;">
+            <h2 class="card-title">Forum</h2>
+            <p class="card-text">Join discussions and connect with peers.</p>
+            <a href="{% url 'forum:index' %}" class="btn btn-primary">VISIT FORUM</a>
+        </div>
+    </div>
+</div>
+
+<!-- Blog Section -->
+<div id="blog" class="blog app mt-5">
+    <img src="{% static 'homepage/img/blog-image.png' %}" class="img-fluid float-left" alt="Blog">
+    <div class="card mt-8 row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-8" style="float:right;">
+            <h2 class="card-title">Blog</h2>
+            <p class="card-text">Read the latest posts from our contributors.</p>
+            <a href="{% url 'blog:index' %}" class="btn btn-primary">VISIT BLOG</a>
+        </div>
+    </div>
+</div>
+
+<!-- Wiki Section -->
+<div id="wiki" class="wiki app mt-5">
+    <img src="{% static 'homepage/img/wiki-image.png' %}" class="img-fluid float-left" alt="Wiki">
+    <div class="card mt-8 row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-8" style="float:right;">
+            <h2 class="card-title">Wiki</h2>
+            <p class="card-text">Explore in-depth articles and resources.</p>
+            <a href="{% url 'wiki:index' %}" class="btn btn-primary">VISIT WIKI</a>
+        </div>
+    </div>
+</div>
+
+<!-- Commissions Section -->
+<div id="commissions" class="commissions app mt-5">
+    <img src="{% static 'homepage/img/commissions-image.png' %}" class="img-fluid float-left" alt="Commissions">
+    <div class="card mt-8 row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-8" style="float:right;">
+            <h2 class="card-title">Commissions</h2>
+            <p class="card-text">Request or offer custom works and services.</p>
+            <a href="{% url 'commissions:index' %}" class="btn btn-primary">VISIT COMMISSIONS</a>
+        </div>
+    </div>
+</div>
+
+<!-- Merch Store Section -->
+<div id="merchstore" class="merchstore app mt-5">
+    <img src="{% static 'homepage/img/merchstore-image.png' %}" class="img-fluid float-left" alt="Merch Store">
+    <div class="card mt-8 row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-8" style="float:right;">
+            <h2 class="card-title">Merch Store</h2>
+            <p class="card-text">Shop exclusive merchandise from our community.</p>
+            <a href="{% url 'merchstore:index' %}" class="btn btn-primary">VISIT MERCH STORE</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

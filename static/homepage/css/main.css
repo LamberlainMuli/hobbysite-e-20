@@ -1,0 +1,181 @@
+.hero-section > .card {
+    background-color: #0A3029;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top:10%;
+    margin-top:17%;
+    border-radius: 25px;
+    
+}
+
+.hero-section h2 {
+    color:#FFFBED;
+    font-size: 3em;
+    font-family: Aileron;
+    width:85%;
+    margin-bottom:10px;
+}
+
+
+
+
+.hero-image {
+    position: relative;
+    height:auto;
+    margin-top:-18%;
+    margin-bottom:-41%;
+    width: 100%;
+    z-index:10;
+}
+
+.readmore {
+    font-size: 2em;
+    background-color: #FFFBED;
+    width: 60%;
+    padding: 10px;
+    color: #0A3029;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 20px;
+}
+.readmore:hover {
+    background-color: #eae3c8;
+    color:black
+}
+
+@media (max-width: 1024px) {
+    .hero-section h2 {
+        font-size: 2.5em;
+    }
+    .readmore {
+        font-size: 1.5em;
+    
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section h2 {
+        font-size: 1.5em;
+    }
+    .readmore {
+        font-size: 1.25;
+    }
+}
+@media (max-width: 320px) {
+    .hero-section h2 {
+        font-size: 1em;
+    }
+    .readmore {
+        font-size: 1em;
+    }
+}
+
+.forum {
+    background-color: #DD735D;
+    border-radius: 20px;
+    padding:30px;
+}
+
+.blog {
+    background-color: #E8B895;
+    border-radius: 20px;
+    padding:30px;
+}
+.wiki {
+    background-color: #7CB4AA;
+    border-radius: 20px;
+    padding:30px;
+}
+.commissions {
+    background-color: #E6995D;
+    border-radius: 20px;
+    padding:30px;
+}
+.merchstore {
+    background-color: #FFA593;
+    border-radius: 20px;
+    padding:30px;
+}
+
+
+.app > .card {
+    background-color: inherit;
+    border:0px;
+    border-radius: 20px;
+    padding:30px;
+
+}
+.app img {
+    position: relative;
+    margin-top: -7%;
+    margin-bottom:-15%;
+    width: 40%;
+    min-width:125px;
+    display: block;
+    z-index: 2;
+}
+
+.app h2 {
+    font-weight: 900;
+    color: #115246;
+    font-size: 3em;
+}
+
+.app p {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #0A3029;
+}
+
+.app .btn {
+    background-color: #FFFBED;
+    width: 100%;
+    padding: 10px;
+    color: #0A3029;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+.app .btn:hover {
+    background-color: #eae3c8;
+    color:black
+}
+@media (max-width: 1024px) {
+    .app h2 {
+        font-size: 2.5em;
+    }
+    .app p {
+        font-size: 1.25em;
+    }
+    .app .btn {
+        font-size: 1.25em;
+    }
+}
+@media (max-width: 768px) {
+    .app h2 {
+        font-size: 1.5em;
+    }
+    .app p {
+        font-size: 1em;
+    }
+    .app .btn {
+        font-size: 0.75em;
+    }
+}
+
+@media (max-width: 500px) {
+    .app {
+        padding: 5px;
+    }
+    .app h2 {
+        font-size: 1em;
+    }
+    .app p {
+        font-size: 0.75em;
+    }
+    .app .btn {
+        font-size: 0.5em;
+    }
+}

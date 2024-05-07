@@ -1,0 +1,35 @@
+body {
+    background-color: #FFFBED; 
+    font-family: 'Aileron', sans-serif;
+}
+
+.navbar-toggle {
+    border: 1px solid #ffffff;
+    background-color: #0A3029;
+}
+
+.navbar {
+    background-color: #0A3029 !important;
+    padding:0px !important;
+}
+.navbar-brand {
+    padding:10px;
+}
+.navbar .navbar-nav >  li {
+    padding:10px;
+}
+
+.navbar .navbar-brand,
+.navbar .navbar-nav > li > a {
+    color: #ffffff; 
+}
+
+.navbar .navbar-nav > li:hover {
+    color: #082c26; 
+    background-color: #2c7c6d;
+}
+
+.navbar .navbar-nav > li.active  {
+    color: #ffffff; 
+    background-color: #051815;
+}

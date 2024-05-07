@@ -13,6 +13,8 @@ class WikiDetailView(DetailView):
     model = Article
     template_name = 'wiki/wiki_detail.html'
 
-
-
-
+class WikiIndex(ListView):
+    model = Article
+    template_name = 'wiki/index.html'
+    context_object_name = 'article_list'
+    paginate_by = 2

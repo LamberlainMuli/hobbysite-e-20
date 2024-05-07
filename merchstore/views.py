@@ -10,3 +10,10 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'merchstore/product_detail.html'
+    
+class ProductIndex(ListView):
+    model = Product
+    template_name = 'merchstore/index.html'
+    context_object_name = 'product_list'
+    paginate_by = 2
+    

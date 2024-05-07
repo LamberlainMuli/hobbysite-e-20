@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+  Blog
+{% endblock title %}
+{% block content %}
+<div class="container mt-4">
+    <!-- Featured Article -->
+    <div class="row">
+        {% if latest_article %}
+        <div class="col-md-12 mt-5">
+            <h4>Featured Article</h4>
+            <div class="card">
+                <!-- <div class="image-container">
+                    <img src="{% static 'media/blog/default_blog_image.jpg' %}" class="card-img-top" alt="{{ latest_article.title }}">
+                </div> -->
+                <div class="card-body">
+                    <h3 class="card-title">{{ latest_article.title }}</h3>
+                    <h6>{{latest_article.get_word_count }} words {{latest_article.get_read_time}} mins. <br> Created on {{latest_article.get_date_created}}. Last Updated on {{latest_article.get_date_updated}}</h6>
+                    <p class="card-text">{{ latest_article.entry|slice:":200" }}...</p>
+                    <a href="{{ latest_article.get_absolute_url }}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+            {% endif %}
+            <!-- Blog Categories -->
+            <div class="categories mt-5">
+                <h4>Blog Categories</h4>
+                <ul class="list-group">
+                    {% for category in categories %}
+                    <li class="list-group-item">
+                        {{ category.name }}
+                        <p> {{category.description}} </p>
+                    </li>
+                    {% endfor %}
+                </ul>
+
+            <!-- Blog Statistics -->
+            <div class="statistics mt-5">
+                <h4>Blog Statistics</h4>
+                <p>Total Posts: {{ total_posts }}</p>
+                <p>Total Words: {{ total_words }}</p>
+                <p>Average Read Time: {{ average_read_time }} minutes</p>
+            </div>
+
+            
+        </div>
+    </div>
+
+    <!-- Recent Articles List -->
+    <div class="row">
+        <div class="col-md-12 mt-5">
+            <h4>Recent Articles</h4>
+            <ul class="list-group">
+                {% for article in recent_articles %}
+                <li class="list-group-item">
+                    <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                    <h6>{{article.get_word_count }} words {{article.get_read_time}} mins. <br> Created on {{latest_article.get_date_created}}. Last Updated on {{latest_article.get_date_updated}}</h6>
+                    <p> {{ article.entry|slice:":200" }}...</p>
+
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <!-- view more  -->
+    <div class="row">
+        <div class="col-md-12 mb-5">
+            <a href="{% url 'blog:article_list' %}" class="btn btn-primary">View More Articles</a>
+        </div>
+</div>
+{% endblock content %}

@@ -12,7 +12,7 @@ class ArticleCategory(models.Model):
 
     def __str__(self):
         return self.name
-
+    
 
 class Article(models.Model):
     title = models.CharField(max_length=255)
@@ -29,3 +29,15 @@ class Article(models.Model):
    
     def get_absolute_url(self):
         return reverse('blog:article_detail', args=str(self.pk))
+    
+    def get_word_count(self):
+        return len(self.entry.split())
+    
+    def get_read_time(self):
+        return self.get_word_count() / 200
+    
+    def get_date_created(self):
+        return self.created_on.strftime('%b %d, %Y')
+    
+    def get_date_updated(self):
+        return self.updated_on.strftime('%b %d, %Y')

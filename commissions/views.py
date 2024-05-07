@@ -9,3 +9,9 @@ class CommissionListView(ListView):
 class CommissionDetailView(DetailView):
     model = Commission
     template_name = 'commissions/commission_detail.html'
+
+class CommissionIndex(ListView):
+    model = Commission
+    template_name = 'commissions/index.html'
+    context_object_name = 'commission_list'
+    paginate_by = 2
