@@ -1,21 +1,15 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}
   Blog
 {% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/css/article_list.css' %}">
+{% endblock css %}
 {% block content %}
-  <h1><p>
-
-    {% if request.user.is_authenticated %}
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit">Logout</button>
-            </form>
-        {% else %}
-            {% if request.get_full_path != '/accounts/login/' %}
-                <a href={% url 'login' %}>Login</a>
-            {% endif %}
-        {% endif %}
-
+    <div class="center mt-8 mb-5">
+        <img src="{% static 'blog/img/article-list.png' %}" alt="Welcome to Hobby Site">
+    </div>
     <h2>My Articles:</h2>
     <ul>
         {% for my_article in my_articles %}
@@ -26,14 +20,18 @@
     <h2>All Articles:</h2>
     <ul>
       {% for category, articles in articles_per_category.items %}
-          <h3><p> {{ category.name }} </p></h3>
+          <h3> {{ category.name }} </h3>
+            {% if articles %}
+            {% else %}
+              <p>No articles yet.</p>
+            {% endif %}
             {% for article in articles %}
-              <p><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></p>
+              <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
             {% endfor %}
       {% endfor %}
   </ul>
 
-  <br></br>
-    <a href="{% url 'blog:article_create' %}"><button>Add Article</button></a>
+  <br>
+    <a href="{% url 'blog:article_create' %}"><button>ADD AN ARTICLE</button></a>
   </h2></p>
 {% endblock content %}

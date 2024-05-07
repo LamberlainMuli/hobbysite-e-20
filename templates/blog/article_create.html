@@ -1,11 +1,53 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% load static %}
-{% block title %}Add Article{% endblock title %}
+
+{% block title %}
+  Add Article
+{% endblock title %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'blog/css/article_create.css' %}">
+{% endblock css %}
+
 {% block content %}
-    <h2>Create Article</h2>
-    <form method="POST" enctype="multipart/form-data">
+<div class="container-fluid mt-8 h-100">
+    <div class="center mt-8 mb-5">
+        <img src="{% static 'blog/img/article-create.png' %}" alt="Welcome to Hobby Site">
+    </div>
+    <form method="POST" enctype="multipart/form-data" class="article-form">
         {% csrf_token %}
-        {{ form }}
-        <button type="submit">Submit</button>
+        <div class="row">
+            <div class="col-md-6 bg-green">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    {{ form.title }}
+                </div>
+                <div class="form-group">
+                    <label for="entry">Category</label>
+                    {{ form.category }}
+                </div>
+                <div class="form-group">
+                    <label for="entry">Entry</label>
+                    {{ form.entry }}
+                </div>
+            </div>
+            <div class="col-md-6 bg-white">
+                <br><br>
+                <div class="image-upload">
+                    <label for="image" style="font-size:1.5em; font-weight: 900; color:#115246">Image</label><br>
+                    {{ form.image }}
+                </div>
+                <div class="form-group">
+                    <label for="image_description" style="color:#115246">Image Description</label>
+                    {{ form.image_description }}
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-submit">Submit</button>
+                    <button type="reset" class="btn btn-cancel">Cancel</button>
+                    <a href="{% url 'blog:article_list' %}" class="btn btn-done">Done</a>
+                </div>
+            </div>
+        </div>
     </form>
-{% endblock content %}
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+body {
+    height: 100%;
+    background: linear-gradient(90deg, #115246 50%, #FFFBED 50%);
+}
+
+.bg-green {
+    background-color: #115246;
+    color: white;
+    padding: 20px;
+}
+
+.bg-white {
+    background-color: #FFFBED !important;
+    color: black;
+    padding: 20px;
+}
+
+.form-group label {
+    font-size:1.5em;
+    font-weight: 900;
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #FFFBED;
+    border-radius: 4px;
+}
+
+.btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-submit {
+    background-color: #115246;
+    color: white;
+}
+
+.btn-cancel {
+    background-color: #115246;
+    color: white;
+}
+
+.btn-done {
+    background-color: #115246;
+    color: white;
+}
+
+.btn:hover {
+    background-color: #45a049;
+    color:white;
+}
+
+@media (max-width: 768px) {
+    .container-fluid {
+        flex-direction: column;
+    }
+    .col-md-6 {
+        width: 100%;
+    }
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.center img {
+    max-width:100%; 
+}
+
+select[name="category"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #FFFBED;
+    border-radius: 4px;
+}
