@@ -50,8 +50,8 @@ class Article(models.Model):
         return self.updated_on.strftime('%b %d, %Y')
 
 class Comment(models.Model):
-    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='comment')
-    article = models.ForeignKey(Article, null=True, on_delete=models.CASCADE, related_name='comment')
+    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='commentauthor')
+    article = models.ForeignKey(Article, null=True, on_delete=models.CASCADE, related_name='commentarticle')
     entry = models.TextField(max_length=255)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
