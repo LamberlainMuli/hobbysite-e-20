@@ -1,16 +1,50 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
-  {{ post.title }}
+  {{ thread.title }}
 {% endblock title %}
-<h2>{{ post.title }}</h2>
 {% block content %}
-  <p>in {{ post.category }}</p>
-  <p>Created on {{ post.created_on }}</p>
-  <p>Last updated {{ post.updated_on }}</p>
+  <h2>{{ thread.title }}</h2>
+  <p>in {{ thread.category }}</p>
+  <p>Created on {{ thread.created_on }}</p>
+  <p>Last updated {{ thread.updated_on }}</p>
   <br>
-  <p>{{ post.entry }}</p>
+  <p>{{ thread.entry }}</p>
+
   <a href="{% url 'forum:forum_list' %}">
     <button>Return</button>
   </a>
+
+  <h3>Other posts in {{ thread.category }}</h3>
+    <ul>
+      {% for category_thread in category_threads %}
+        <li><a href="{{ category_thread.get_absolute_url }}">{{ category_thread.title }}</a></li>
+      {% endfor %}
+    </ul>
+
+  <h3>Comments</h3>
+  <ul>
+    {% for comment in comment %}
+    <li>
+      <b>{{ comment.author }}"</b> - {{ comment.created_on }}
+      <p>{{ comment.entry }} </p>
+    </li>
+    {% endfor %}
+  </ul>
+
+  {% if request.user.is_authenticated %}
+  <h3> Add Comment </h3>
+    <form method="POST">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <button type="submit">Submit</button>
+    </form>
+  {% endif %}
+
+  {% if is_owner%}
+  <a href="{% url 'forum:forum_update' pk=view.kwargs.pk %}">
+    <button>Edit</button>
+  </a>
+  {% endif %}
+
 {% endblock content %}

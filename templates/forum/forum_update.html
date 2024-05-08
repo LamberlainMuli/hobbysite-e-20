@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  Update Thread Entry
+{% endblock title %}
+{% block content %}
+  <h3>Edit Thread</h3>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <br>
+    <button type="submit">Save</button>
+  </form>
+  <a href="{% url 'forum:forum_detail' pk=view.kwargs.pk %}">
+    <button>Cancel</button>
+  </a>
+  <a href="{% url 'forum:forum_detail' pk=view.kwargs.pk %}">
+    <button>Done</button>
+  </a>
+{% endblock content %}
