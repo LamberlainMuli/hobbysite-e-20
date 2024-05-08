@@ -5,9 +5,11 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
-    <form method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Update</button>
-    </form>
+    {% if request.user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Update</button>
+        </form>
+    {% endif %}
 {% endblock %}

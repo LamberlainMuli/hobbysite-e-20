@@ -4,10 +4,12 @@
 {% block title %}Create Product{% endblock %}
 
 {% block content %}
-    <h3>Create Product</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Create</button>
-    </form>
+    {% if request.user.is_authenticated %}    
+        <h3>Create Product</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Create</button>
+        </form>
+    {% endif %}
 {% endblock %}

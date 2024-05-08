@@ -4,15 +4,21 @@
 {% block title %}Transactions{% endblock title %}
 
 {% block content %}
-    <h2>Transactions</h2>
-    {% for profile in profiles %}
-        {% if not profile.name == user.get_username %}
-        <h5>{{profile.name}}</h5>
-            {% for transaction in object_list %}
-                {% if transaction.buyer == buyer %}
-                    <li>{{ transaction }}</li>
-                {% endif %}
-            {% endfor %}
-        {% endif %}
-    {% endfor %}
+    {% if request.user.is_authenticated %}
+        <h2>Transactions</h2>
+        {% for buyer in buyers %}
+            {% if not buyer == request.user.profile %}
+                <h5>{{ buyer }}</h5>
+                <ul>
+                    {% for transaction in transactions %}
+                        {% if transaction.buyer == buyer %}
+                            <li>
+                                {{ transaction.amount }} {{ transaction.product.name }}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}

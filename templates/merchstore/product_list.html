@@ -25,7 +25,7 @@
             <h5>{{ type }}</h5>
             <ul>
                 {% for product in object_list %}
-                    {% if product.type == type %}
+                    {% if product.type == type and product.owner != request.user.profile %}
                         <li>
                             <a href="{{ product.get_absolute_url }}">{{ product }}</a>
                         </li>

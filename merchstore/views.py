@@ -101,6 +101,7 @@ class CartView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["owners"] = Profile.objects.all()
+        context["transactions"] = Transaction.objects.all()
         return context
 
 
@@ -111,6 +112,7 @@ class TransactionListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["buyers"] = Profile.objects.all()
+        context["transactions"] = Transaction.objects.all()
         return context
 
 
