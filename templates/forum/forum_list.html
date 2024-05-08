@@ -4,20 +4,26 @@
   Forum Topics
 {% endblock title %}
 {% block content %}
-  <p>
-    <ul>
-      {% for category in object_list %}
-        <li>
-          {{ category }}
-          <ul>
-            {% for post in category.post.all %}
-              <li>
-                <a href="{{ post.get_absolute_url }}">{{ post }}</a>
-              </li>
-            {% endfor %}
-          </ul>
-        </li>
+  <h2>My Threads:</h2>
+  <ul>
+      {% for my_thread in my_threads %}
+        <li><a href="{{ my_thread.get_absolute_url }}">{{ my_thread.title }}</a></li>
       {% endfor %}
-    </ul>
-  </p>
+  </ul>
+
+  <h2>All Articles:</h2>
+  <ul>
+    {% for category, threads in threads_per_category.items %}
+        <h3> {{ category.name }} </h3>
+          {% if thread %}
+          {% endif %}
+          {% for thread in threads %}
+            <li><a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a></li>
+          {% endfor %}
+    {% endfor %}
+</ul>
+
+  <a href="{% url 'forum:forum_create'%}">
+    <button>Create thread</button>
+  </a>
 {% endblock content %}

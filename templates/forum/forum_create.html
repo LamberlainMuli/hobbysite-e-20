@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+  Add Thread
+{% endblock title %}
+{% block content %}
+  <h3>Create Thread</h3>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <br>
+    <button type="submit">Submit</button>
+  </form>
+{% endblock content %}
