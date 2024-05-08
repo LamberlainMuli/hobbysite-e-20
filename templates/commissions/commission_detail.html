@@ -15,12 +15,19 @@
       <button>Edit Commission</button>
     </a>
   {% endif %}
-
+  
+  {% if error %}
+    <p style="color: red;">{{ error }}</p>
+  {% endif %}
+  
   <h3>Jobs:</h3>
   {% for job in jobs %}
     <p><strong>{{ job.role }}</strong> ({{ job.get_total_open_positions }}) - {{ job.status }}</p>
     {% if request.user.is_authenticated and job.status == 'Open' and job.get_total_open_positions > 0 %}
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
       {{ form }}  
+        <input type="hidden" name="job_pk" value="{{ job.pk }}">
         <button type="submit">Apply to Job</button> 
       </form>    
     {% endif %}

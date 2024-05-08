@@ -15,12 +15,29 @@
 
     <h3>Commissions You've Applied To:</h3>
     <ul>
-    {% for commission in applied_commissions %}
-    <li> <a href="{{commission.get_absolute_url}}"> {{commission}} </a> </li>
-    {% empty %}
-      <li>No commission applications yet.</li>
-    {% endfor %}
+      {% for commission in applied_commissions %}
+        <li>
+          <a href="{{ commission.get_absolute_url }}">{{ commission }}</a>
+          <ul>
+            {% for job in commission.jobs.all %}
+              {% for application in job.applications.all%}
+                {% if application.applicant == request.user %}
+                  <li>Applied for: {{ application.job.role }} on {{ application.applied_on|date:"F d, Y H:i" }}. Current Status: {{ application.status }}</li>
+                {% endif %}
+                  {% empty %}
+                  <li>No applications yet for this job.</li>
+                {% endfor %}
+              {% empty %}
+                <li>No jobs listed in this commission.</li>
+              
+            {% endfor %}
+          </ul>
+        </li>
+      {% empty %}
+        <li>No commission applications yet.</li>
+      {% endfor %}
     </ul>
+    
 
     <a href="{% url 'commissions:commission-create' %}">
       <button>Create Commission</button>

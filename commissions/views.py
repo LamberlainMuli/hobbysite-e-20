@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Commission, Job, JobApplication
 from .forms import CommissionForm, CommissionUpdateForm, JobCreateForm, JobApplicationForm
 from django.db.models import Case, When
+from django.http import HttpResponseRedirect
 
 class CommissionListView(LoginRequiredMixin, ListView):
     model = Commission
@@ -26,7 +27,7 @@ class CommissionListView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_commissions'] = Commission.objects.filter(creator=self.request.user)
-        context['applied_commissions'] = Commission.objects.filter(jobs__applications__applicant=self.request.user)
+        context['applied_commissions'] = Commission.objects.filter(jobs__applications__applicant=self.request.user).distinct()
         return context
 
 class CommissionDetailView(LoginRequiredMixin, DetailView):
@@ -34,6 +35,27 @@ class CommissionDetailView(LoginRequiredMixin, DetailView):
     form_class = JobApplicationForm
     template_name = 'commissions/commission_detail.html'
     
+    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()  # Ensuring self.object is set
+        form = self.form_class(request.POST)
+
+        if form.is_valid():
+            job_pk = request.POST.get('job_pk')
+            job = Job.objects.get(pk=job_pk)
+
+            existing_application = JobApplication.objects.filter(applicant=request.user, job=job).exists()
+            if existing_application:
+                return self.render_to_response(self.get_context_data(form=form, error="You have already applied for this job."))
+
+            application = form.save(commit=False)
+            application.status = 'Pending'
+            application.applicant = request.user
+            application.job = job
+            application.save()
+            return HttpResponseRedirect(self.request.path_info)
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -46,13 +68,6 @@ class CommissionDetailView(LoginRequiredMixin, DetailView):
         
         return context
 
-    def form_valid(self, form):
-        application = form.save(commit=False)
-        application.applicant = self.request.user
-        application.job = self.get_object()
-        application.status = 'Pending'
-        application.save()
-        return super().form_valid(form)
 
 class CommissionCreateView(LoginRequiredMixin, CreateView):
     model = Commission
