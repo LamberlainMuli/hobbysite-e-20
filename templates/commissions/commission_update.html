@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Update Commission{% endblock title %}
+{% block content %}
+    <h2>Update Commission</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+    <br>
+    <h3>
+        <a href="{% url 'commissions:commission-detail' pk=view.kwargs.pk %}"><button class="btn btn-secondary">Cancel</button></a>
+    </h3>
+    <h3>
+        <a href="{% url 'commissions:commission-detail' pk=view.kwargs.pk %}"><button class="btn btn-success">Done</button></a>
+    </h3>
+{% endblock content %}
