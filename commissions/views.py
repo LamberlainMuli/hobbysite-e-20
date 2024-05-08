@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Commission, Job, JobApplication
 from .forms import CommissionForm, CommissionUpdateForm, JobCreateForm, JobApplicationForm
+from django.db.models import Case, When
 
 class CommissionListView(LoginRequiredMixin, ListView):
     model = Commission
@@ -12,7 +13,15 @@ class CommissionListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.order_by('-status', '-created_on')
+        return queryset.order_by(
+            Case(When(status='Open', then=0),
+                 When(status='Full', then=1),
+                 When(status='Completed', then=2),
+                 When(status='Discontinued', then=3),
+                 default=4
+                 ), 
+            '-created_on')
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -22,15 +31,18 @@ class CommissionListView(LoginRequiredMixin, ListView):
 
 class CommissionDetailView(LoginRequiredMixin, DetailView):
     model = Commission
+    form_class = JobApplicationForm
     template_name = 'commissions/commission_detail.html'
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         commission = self.get_object()
-        context['jobs'] = Job.objects.filter(commission=commission)
-        context['total_manpower_required'] = sum(job.manpower_required for job in context['jobs'])
-        context['total_open_manpower'] = sum(job.manpower_required - JobApplication.objects.filter(job=job, status='Accepted').count() for job in context['jobs'])
+
+        context['jobs'] = commission.jobs.all()
         context['can_edit'] = self.request.user == commission.creator
+        jobs = context['jobs']  
+        context['total_manpower_required'] = sum(job.manpower_required for job in jobs)
         context['job_application_form'] = JobApplicationForm()
         return context
 
@@ -39,6 +51,7 @@ class CommissionDetailView(LoginRequiredMixin, DetailView):
         if job_application_form.is_valid():
             job_application = job_application_form.save(commit=False)
             job_application.applicant = request.user
+            job_application.status = 'Pending'
             job_application.job = self.get_object()
             job_application.save()
             return self.get(request, *args, **kwargs)

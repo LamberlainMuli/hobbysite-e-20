@@ -20,9 +20,12 @@ class Commission(models.Model):
     
     class Meta:
         ordering = ['created_on']
+    
+    def get_total_manpower_required(self):
+        return sum(job.manpower_required for job in self.jobs.all())
         
     def __str__(self):
-        return f'{self.title}'
+        return f'{self.title} - from {self.creator} - {self.status} - {self.get_total_manpower_required()} positions available'
 
     def get_absolute_url(self):
         return reverse('commissions:commission-detail', args=[str(self.pk)])
@@ -62,6 +65,9 @@ class Job(models.Model):
     
     def get_date_updated(self):
         return self.updated_on.strftime('%b %d %Y')
+    
+    def get_total_open_positions(self):
+        return self.manpower_required - self.applications.filter(status='Accepted').count()
     
     class Meta:
         ordering = ['status', '-manpower_required', 'role']

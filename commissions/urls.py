@@ -5,11 +5,12 @@ from .views import (
     CommissionListView, 
     CommissionDetailView, 
     CommissionCreateView, 
-    CommissionUpdateView
+    CommissionUpdateView,
+    CommissionIndex
 )
 
 urlpatterns = [
-    path("list", CommissionListView.as_view(), name="commission_list"),
+    path("list", CommissionListView.as_view(), name="commission-list"),
     path("<int:pk>", CommissionDetailView.as_view(), name="commission-detail"),
     path("add/", CommissionCreateView.as_view(), name="commission-create"),
     path("<int:pk>/edit", CommissionUpdateView.as_view(), name="commission-update"),

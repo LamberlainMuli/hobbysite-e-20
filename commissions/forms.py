@@ -65,15 +65,4 @@ class JobCreateForm(forms.ModelForm):
 class JobApplicationForm(forms.ModelForm):
     class Meta:
         model = JobApplication
-        fields = ['job', 'applicant', 'status']
-        widgets = {
-            'job': forms.Select(attrs={'class': 'form-control'}),
-            'applicant': forms.Select(attrs={'class': 'form-control'}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
-        }
-        labels = {
-            'job': 'Job Position',
-            'applicant': 'Applicant Name',
-            'status': 'Application Status',
-        }
-
+        exclude = ['applicant', 'job', 'status']

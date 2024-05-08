@@ -3,19 +3,36 @@
 {% block header %}Commissions List{% endblock %}
 {% block title %}Commissions List{% endblock %}
 {% block content %}
-  <div style="margin: 20px;">
+  {% if request.user.is_authenticated %}
+    <h3>Your Commissions:</h3>
     <ul>
-      {% for commission in object_list %}
-        <li>
-          <h4><a href="{{ commission.get_absolute_url }}">{{ commission.title }}</a></h4>
-          <p>Description: {{ commission.description|truncatewords:20 }}</p>
-          <p>People Required: {{ commission.manpower_required }}</p>
-          <p>Created On: {{ commission.created_on|date:"F d, Y" }}</p>
-          <p>Last Updated: {{ commission.updated_on|date:"F d, Y" }}</p>
-        </li>
-      {% empty %}
-        <li>No commissions available.</li>
-      {% endfor %}
+    {% for commission in user_commissions %}
+     <li> <a href="{{commission.get_absolute_url}}"> {{commission}} </a> </li>
+    {% empty %}
+      <li>No commissions created yet.</li>
+    {% endfor %}
     </ul>
-  </div>
+
+    <h3>Commissions You've Applied To:</h3>
+    <ul>
+    {% for commission in applied_commissions %}
+    <li> <a href="{{commission.get_absolute_url}}"> {{commission}} </a> </li>
+    {% empty %}
+      <li>No commission applications yet.</li>
+    {% endfor %}
+    </ul>
+
+    <a href="{% url 'commissions:commission-create' %}">
+      <button>Create Commission</button>
+    </a>
+  {% endif %}
+
+  <h3>All Commissions:</h3>
+  <ul> 
+  {% for commission in object_list %}
+    <li> <a href="{{commission.get_absolute_url}}"> {{commission}} </a> </li>
+  {% empty %}
+    <li>No commissions available.</li>
+  {% endfor %}
+  </ul>
 {% endblock %}
