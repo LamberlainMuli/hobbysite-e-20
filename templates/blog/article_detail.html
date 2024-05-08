@@ -1,17 +1,66 @@
 {% extends "base.html" %}
 {% load static %}
-{% block title %}
-  {{ article.title }}
-{% endblock title %}
-<h2>{{ article.title }}</h2>
+{% block header %}
+  <h3><p>In {{ article.category }}</p></h3>  
+  <h2><p>{{ article.title }}</p></h2>  
+{% endblock header %}
+
 {% block content %}
-  <h3><p>In {{ article.category }}</p></h3>
-  <p><b>Created on </b>{{ article.created_on }}</p>
-  <p><b>Last updated </b>{{ article.updated_on }}</p>
-  <br>
-  <p>{{ article.entry }}</p>
+  
+  <p><b>Created on </b> {{ article.created_on }}</p>
+  <p><b>Last updated </b> {{ article.updated_on }}</p>
+  <img src="{{article.image.url}}" alt="{{ article.image_description }}">
+  
+  <style>
+  div {
+    padding: 15px;
+    text-align: justify;
+  }
+  </style>
+  
+  <p><div>{{ article.entry }}</div></p>
+
+  <hr>
+
+  {% if request.user.is_authenticated %}
+  <h2> Add Comment </h2>
+    <form method="POST">
+      {% csrf_token %}
+      {{ comment_form.as_p }}
+      <button type="submit">Submit</button>
+  </form>
+  {% endif %}
+  
+  <h2>Existing Comments</h2>
+  <ul>
+    {% for comment in comment %}
+    <li>
+      <b>{{ comment.author }}"</b> - {{ comment.created_on }}
+      <p>{{ comment.entry }} </p>
+    </li>
+  {% endfor %}
+</ul>
+
+<hr>
+
+  <h3>More Articles by {{ article.author }}</h3>
+  <ul>
+    {% for author_article in author_articles %}
+      <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
+    {% endfor %}
+  </ul>
+  
+  {% if is_owner %}
+    <a href="{% url 'blog:article_update' pk=article.pk %}">
+      <br><button>Edit this Article</button></br>
+    </a>
+  {% endif %}
+
+<hr>
+
   <a href="{% url 'blog:article_list' %}">
-    <br>
-    <button>Return</button>
+    <br><button>Back to Blog Menu</button></br>
   </a>
+  
 {% endblock content %}
+

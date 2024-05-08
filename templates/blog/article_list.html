@@ -3,21 +3,35 @@
 {% block title %}
   Blog
 {% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'blog/css/article_list.css' %}">
+{% endblock css %}
 {% block content %}
-  <p>
+    <div class="center mt-8 mb-5">
+        <img src="{% static 'blog/img/article-list.png' %}" alt="Welcome to Hobby Site">
+    </div>
+    <h2>My Articles:</h2>
     <ul>
-      {% for category in object_list %}
-        <li>
-          {{ category }}
-          <ul>
-            {% for article in category.article.all %}
-              <li>
-                <a href="{{ article.get_absolute_url }}">{{ article.title }} </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </li>
-      {% endfor %}
+        {% for my_article in my_articles %}
+          <li><a href="{{ my_article.get_absolute_url }}">{{ my_article.title }}</a></li>
+        {% endfor %}
     </ul>
-  </p>
+
+    <h2>All Articles:</h2>
+    <ul>
+      {% for category, articles in articles_per_category.items %}
+          <h3> {{ category.name }} </h3>
+            {% if articles %}
+            {% else %}
+              <p>No articles yet.</p>
+            {% endif %}
+            {% for article in articles %}
+              <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+            {% endfor %}
+      {% endfor %}
+  </ul>
+
+  <br>
+    <a href="{% url 'blog:article_create' %}"><button>ADD AN ARTICLE</button></a>
+  </h2></p>
 {% endblock content %}
