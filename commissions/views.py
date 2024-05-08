@@ -43,20 +43,16 @@ class CommissionDetailView(LoginRequiredMixin, DetailView):
         context['can_edit'] = self.request.user == commission.creator
         jobs = context['jobs']  
         context['total_manpower_required'] = sum(job.manpower_required for job in jobs)
-        context['job_application_form'] = JobApplicationForm()
+        
         return context
 
-    def post(self, request, *args, **kwargs):
-        job_application_form = JobApplicationForm(request.POST)
-        if job_application_form.is_valid():
-            job_application = job_application_form.save(commit=False)
-            job_application.applicant = request.user
-            job_application.status = 'Pending'
-            job_application.job = self.get_object()
-            job_application.save()
-            return self.get(request, *args, **kwargs)
-        else:
-            return self.render_to_response(self.get_context_data(job_application_form=job_application_form))
+    def form_valid(self, form):
+        application = form.save(commit=False)
+        application.applicant = self.request.user
+        application.job = self.get_object()
+        application.status = 'Pending'
+        application.save()
+        return super().form_valid(form)
 
 class CommissionCreateView(LoginRequiredMixin, CreateView):
     model = Commission

@@ -20,7 +20,7 @@
   {% for job in jobs %}
     <p><strong>{{ job.role }}</strong> ({{ job.get_total_open_positions }}) - {{ job.status }}</p>
     {% if request.user.is_authenticated and job.status == 'Open' and job.get_total_open_positions > 0 %}
-      {{ job_application_form }}  
+      {{ form }}  
         <button type="submit">Apply to Job</button> 
       </form>    
     {% endif %}
