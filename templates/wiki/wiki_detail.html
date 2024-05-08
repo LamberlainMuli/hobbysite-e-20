@@ -1,21 +1,33 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block header %}{% endblock %}
-{% block title %}Wiki Details{% endblock %}
+{% block title %}{{ object.name }}{% endblock %}
+{% block content %}
 
-{% block content %}    
-    <h2>Article Details</h2>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki Canos</title>
+</head>
+
+<body>
+    <h2></h2>
     <h3>
         <div class="c" style="font-size: 18px; padding-left: 4% ;padding-right: 10%;">
-            <ul>
 
-                <p style="font-size: 25px;">{{ article.title }}</p>
-                <li><img src="{{article.image.url}}" style="height: 200px; width: 200px;"
-                    alt="{{article.image_description}}"></li>
-                <li><b>Created by: </b>{{article.author}}</li>
+            <ul>
+                <p style="margin-right:5%; padding: 15px; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px;">{{ article.title }}</p>
+
+                <div style="text-align: center; background-color: #ffe5b4; padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                    <img src="{{article.image.url}}" style="max-width: 100%; max-height: 200px; border-radius: 10px;" alt="{{article.image_description}}">
+                </div>
+                <p style="text-align: center; "><b>Created by: </b>{{article.author}}</p>
                 <li><b>Updated last: </b>{{ article.updated_on }}</li>
                 <li><b>Created last: </b>{{ article.created_on }}</li>
-                <li style="text-align: justify;">{{ article.entry }}</li>
+                <li style="text-align: justify;"><b>Description: </b>{{ article.entry }}</li>
                
 
                 <br>
@@ -23,11 +35,11 @@
 
         </div>
     </h3>
-    <h3>More Articles by {{ article.author }}</h3>
+    <h3>More Articles under {{ article.category.name }}</h3>
     <ul>
-        {% for author_article in author_articles %}
-        <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
-        {% endfor %}
+        {% for category_article in category_articles %}
+    <li><a href="{{ category_article.get_absolute_url }}">{{ category_article.title }}</a></li>
+    {% endfor %}
     </ul>
     <br>
 
@@ -44,7 +56,8 @@
     <h2>Existing Comments</h2>
     <ul>
         {% for comment in comments %}
-        <li>
+            <li style="background-color: #ffffff; padding: 20px; margin-bottom: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border-radius: 8px;">
+
             <b>{{ comment.author }}</b> - {{ comment.created_on }}
             <p>{{ comment.entry }}</p>
         </li>
@@ -72,6 +85,9 @@
     {% endif %}
 
     <br>
+    <br>
+    <br>
+    <br>
 </body>
 
 </html>
@@ -86,3 +102,5 @@
         Edit this Wiki
         </button>
     </a>---->
+
+
