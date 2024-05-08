@@ -19,7 +19,6 @@ class WikiEditForm(forms.ModelForm):
         model = Article
         fields = '__all__'
        
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['author'].disabled = True
