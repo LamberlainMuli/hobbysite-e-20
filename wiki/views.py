@@ -43,14 +43,17 @@ class WikiDetailView(DetailView):
     template_name = 'wiki/wiki_detail.html'
     
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        article = self.get_object()
-        author_articles = Article.objects.filter(author=article.author).exclude(pk=article.pk)[:2]
-        context['author_articles'] = author_articles
-        context['comment_form'] =  CommentForm()
-        context['comments'] = Comment.objects.filter(article=article).order_by('-created_on')  # Fetch comments associated with the article
+     context = super().get_context_data(**kwargs)
+     article = self.get_object()
 
-        return context
+        # Filter articles by categories instead of authors
+     category_articles = Article.objects.filter(category=article.category).exclude(pk=article.pk)[:2]
+
+     context['category_articles'] = category_articles
+     context['comment_form'] = CommentForm()
+     context['comments'] = Comment.objects.filter(article=article).order_by('-created_on')
+
+     return context
 
     def post(self, request, *args, **kwargs):
         article = self.get_object()
