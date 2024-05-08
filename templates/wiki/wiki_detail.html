@@ -10,18 +10,79 @@
             <ul>
 
                 <p style="font-size: 25px;">{{ article.title }}</p>
+                <li><img src="{{article.image.url}}" style="height: 200px; width: 200px;"
+                    alt="{{article.image_description}}"></li>
+                <li><b>Created by: </b>{{article.author}}</li>
                 <li><b>Updated last: </b>{{ article.updated_on }}</li>
                 <li><b>Created last: </b>{{ article.created_on }}</li>
                 <li style="text-align: justify;">{{ article.entry }}</li>
+               
+
                 <br>
             </ul>
 
         </div>
     </h3>
+    <h3>More Articles by {{ article.author }}</h3>
+    <ul>
+        {% for author_article in author_articles %}
+        <li><a href="{{ author_article.get_absolute_url }}">{{ author_article.title }}</a></li>
+        {% endfor %}
+    </ul>
+    <br>
+
+    {% if request.user.is_authenticated %}
+
+    <h2>Add Comment</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+    {% endif %}
+
+    <h2>Existing Comments</h2>
+    <ul>
+        {% for comment in comments %}
+        <li>
+            <b>{{ comment.author }}</b> - {{ comment.created_on }}
+            <p>{{ comment.entry }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+
     <a href="/wiki/articles">
-        <button style="margin-left: 7% ;">
+        <button style="margin-left: 10% ;">
             Go Back to Wiki List
         </button>
     </a>
+    <!-- <p>HI</p>
+    <p> the reqeust user id is: {{request.user.id}}</p>
+    <p> the article author id is: {{article.author.pk}}</p> -->
+
+    {% if request.user.is_authenticated %}
+    {% if request.user.id == article.author.pk %}
+    <a href="{% url 'wiki:wiki_update' pk=article.pk  %}">
+        <button style="margin-left: 7% ;">
+            Edit this Wiki
+        </button>
+    </a>
+    {% else %}
+    {% endif %}
+    {% endif %}
+
+    <br>
+</body>
+
+</html>
 
 {% endblock content %}
+
+<style>
+</style>
+
+<!----!-  <a href="/wiki/article/{{article.pk}}/edit"> 
+        <button style="margin-left: 7% ;">
+        Edit this Wiki
+        </button>
+    </a>---->

@@ -3,20 +3,93 @@
 {% block header %}{% endblock %}
 {% block title %}Wiki List{% endblock %}
 {% block content %}
-  <div class="container">
-    {% for category in object_list %}
-    <div class="card-item">
-      <div class="content">
-        <p class="title" style="font-size: 30px;"> {{ category.name }} </p>
-        <div class="b">
-              {% for item in category.Categories.all %}
-              <h6><a href = "{{ item.get_absolute_url }}"> {{item}}  </a> </h6>
-              {% endfor %}
-        </div>
-        <br>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
 
-{% endblock content %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wiki Cano</title>
+</head>
+
+<body>
+
+{% if request.user.is_authenticated %}
+<h2>
+  <br>
+  My Articles: 
+</h2>
+<ul>
+  {% for my_article in my_articles %}
+  <li>
+    <a href = "{{my_article.get_absolute_url}}">{{ my_article.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+
+<h2>All Articles:</h2>
+  {% for category, articles in articles_per_category.items %}
+      <p> {{ category.name }} </p>
+        {% for article in articles %}
+          <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+        {% endfor %}
+  {% endfor %}
+<br>
+{% else %}
+<h2>All Articles:</h2>
+    {% if all_articles %}
+      <ul>
+        {% for article in all_articles %}
+          <li><a href="{{ article.get_absolute_url }}">{{ article.title }}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No articles found.</p>
+    {% endif %}
+{% endif %}
+
+
+<!--
+  Draft 
+
+  <table border="1">
+  <tr>
+    <th>Category</th>
+    <th style="width: 300px;">Name</th>
+    <th style="width: 300px;">Art. Author ID</th>
+    <th style="width: 300px;">Logged Author ID</th>
+
+  </tr>
+  {% for category in object_list %}
+  {% for item in category.Categories.all %}
+    {% if request.user.is_authenticated %}
+    {% if request.user.id == item.author.pk %} 
+    <tr>
+      <td>{{item.category}}</td>
+      <td><a href = "{{ item.get_absolute_url }}">{{item.title}}</a></td>
+      <td>{{item.author}}</td>
+    
+      <td>{{request.user.id}}</td>
+    
+    </tr>
+    {% endif %}
+    {% endif %}
+  {% endfor %}
+  {% endfor %}
+
+</table>
+  -->
+
+
+{% if request.user.is_authenticated %}
+<button type="submit">
+<a href="{% url 'wiki:wiki_create' %}">Add Wiki Topic</a>
+</button>
+{% else %}
+{% endif %}
+
+{% endblock %}
+
+
+  </body>
+
+ 
