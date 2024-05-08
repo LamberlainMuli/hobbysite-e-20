@@ -11,7 +11,7 @@
                 <h5>{{ buyer }}</h5>
                 <ul>
                     {% for transaction in transactions %}
-                        {% if transaction.buyer == buyer %}
+                        {% if transaction.buyer == buyer and transaction.product.owner == request.user.profile %}
                             <li>
                                 {{ transaction.amount }} {{ transaction.product.name }}
                             </li>
