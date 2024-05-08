@@ -2,10 +2,51 @@
 {% load static %}
 
 {% block title %}Product List{% endblock %}
+
 {% block content %}
-    <ul>
-        {% for product in object_list %}
-            <li><a href="{{ product.get_absolute_url }}">{{ product }}</a></li>
+    {% if request.user.is_authenticated %}
+        <h2>Your Products</h2>
+        {% for type in product_types %}
+            <h5>{{ type }}</h5>
+            <ul>
+                {% for product in object_list %}
+                    {% if product.type == type and product.owner == request.user.profile %}
+                        <li>
+                            <a href="{{ product.get_absolute_url }}">{{ product }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
         {% endfor %}
-    </ul>
+        <h6><a href="{% url 'merchstore:merch_create' %}">Create a New Product</a></h6>
+        <br>
+        <h2>All Products</h2>
+        {% for type in product_types %}
+            <h5>{{ type }}</h5>
+            <ul>
+                {% for product in object_list %}
+                    {% if product.type == type and product.owner != request.user.profile %}
+                        <li>
+                            <a href="{{ product.get_absolute_url }}">{{ product }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endfor %}
+
+    {% else %}
+        <h2>All Products</h2>
+        {% for type in product_types %}
+            <h5>{{ type }}</h5>
+            <ul>
+                {% for product in object_list %}
+                    {% if product.type == type %}
+                        <li>
+                            <a href="{{ product.get_absolute_url }}">{{ product }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

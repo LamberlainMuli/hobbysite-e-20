@@ -2,17 +2,25 @@
 {% load static %}
 
 {% block title %}{{ product.name }}{% endblock %}
+
 {% block content %}
-    <h2>
-        {{ product.name }}
-    </h2>
-    <h3>
-        {{ product.product_type }}
-    </h3>
-    <h4>
-        {{ product.price }}
-    </h4>
-    <p>
-        {{ product.description }}
-    </p>
+    <h2>{{ product.name }}</h2>
+    <h5>₱{{ product.price }}</h5>
+    <p>{{ product.description }}</p>
+    <h6>{{ object.status }}</h6>
+    <p>{{ object.stock }} in stock</p>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit"
+            value="Purchase"
+            {% if request.user.profile == product.owner or product.stock == 0 %}
+                disabled
+            {% endif %}>
+    </form>
+    <br>
+    {% if request.user.profile == product.owner %}
+        <h6><a href="{% url 'merchstore:merch_update' pk=product.pk %}">Update Product</a></h6>   
+    {% endif %}
+    <h6><a href="/merchstore/items">Go back to product list</a></h6>
 {% endblock %}

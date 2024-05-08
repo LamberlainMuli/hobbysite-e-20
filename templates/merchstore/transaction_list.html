@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Transactions{% endblock title %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <h2>Transactions</h2>
+        {% for buyer in buyers %}
+            {% if not buyer == request.user.profile %}
+                <h5>{{ buyer }}</h5>
+                <ul>
+                    {% for transaction in transactions %}
+                        {% if transaction.buyer == buyer and transaction.product.owner == request.user.profile %}
+                            <li>
+                                {{ transaction.amount }} {{ transaction.product.name }}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <h2>Cart</h2>
+        {% for owner in owners %}
+            {% if not owner == request.user.profile %}
+                <h5>{{ owner }}</h5>
+                <ul>
+                    {% for transaction in transactions %}
+                        {% if transaction.product.owner == owner and transaction.buyer == request.user.profile %}
+                            <li>
+                                {{ transaction.amount }} {{ transaction.product.name }}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
